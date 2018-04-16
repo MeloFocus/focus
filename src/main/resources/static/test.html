@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<script type="text/javascript" src="jquery-3.0.0.min.js"></script>
+<script type="text/javascript">
+$(function(){
+ //$("#tree").treeview();
+ $("input[name='ids']").click(function(){
+ var checkedValue = this.checked;
+ $(this).parent("li").find("input[name='ids']").attr("checked",checkedValue);
+ });
+})
+</script>
+</head>
+<body>
+<ul id='tree'>
+<li>
+<input type='checkbox' name="ids" id="test"/>
+<span class='folder'>test1</span>
+<ul>
+<li>
+<input type='checkbox' name='ids' />
+<span class='folder'>test11</span>
+</li>
+</ul>
+<ul>
+<li>
+<input type='checkbox' name='ids' />
+<span class='folder'>test12</span>
+<ul>
+<li>
+<input type='checkbox' name='ids' />
+<span class='folder'>test121</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</body>
+</html>

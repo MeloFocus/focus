@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<!-- 新 Bootstrap 核心 CSS 文件 -->  
+ <link rel="stylesheet" href="css/bootstrap.min.css">
+  
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->  
+<script src="js/bootstrap.min.js"></script>  
+
+<script type="text/javascript" src="jquery-3.0.0.min.js"></script>
+<script type="text/javascript">
+
+var leftNav = [];
+var s='---';
+$(function(){
+	$.ajax({
+		url:"/focus/resource/getCurrentUserResourceTree",
+		type:"get",
+		data:{},
+		success:function(d){
+			var data = d['data'];
+			//alert(data);
+			show2(data,0,0,0);
+		},
+		error:function(){},
+		dataType:"json"
+	});
+	 	
+	//a是当前第几级，b是当前级别的第几个菜单,status 是状态，一次点击放开一次点击收回
+	function show2(data,a,b,status){
+		$.each(data,function (i,j){
+			console.log(">>>>>>>>>>>",i,j);
+			//alert(j['name']);
+			
+			if(a==0){
+				//第一级菜单 加到ul标签上，举例第一级第二个菜单id是 "1---2"
+				$("#d").append("<li style='border: solid white;border-radius:5px;text-align:center;padding:10px;width:120px;height:40px' id='li" + a + s + i + "'>"+j['name']+"</li>")
+			}else{
+				//alert(a);
+				//如果资源是菜单类型 type是2 
+				if(j['type']==2){//判断菜单， li加缩进
+					$("#li"+(a-1)+s+b).append("<li style='border: solid white;border-radius:5px;text-align:center;padding:10px;width:120px;height:40px' id='li" + a + s + i + "' style='margin-left:"+100*a+"px'>"+j['name']+"</li>")
+				}
+			}
+			
+			//每个菜单加事件
+			$("#li"+a+s+i).click(function(){
+				//当status=1点菜单展开子菜单，等于0再点一次 收回。这样有缺陷，因为所有菜单的status 用的是一个变量，会造成有的菜单点两次 才能展开
+				if(status==1){status=0}
+				else{status=1}
+				//阻止冒泡事件，子li是父li的元素，如果点击子li 会认为同时点击了父li，触发父li的事件
+				event.stopPropagation();
+				console.log(">>>>>>>",j)
+				//alert(j.children);
+				clickLeft(j['children'],a+1,i,status)
+			}); 
+			
+			$("#li"+a+s+i).click(function(){
+				if(j['menuRoute']!=null){
+					//alert(j['menuRoute']);
+					//parent 在父窗口frame 的 名为show的frame 打开新的页面
+					//每个资源对象 的menuRoute属性对应着页面，此静态页面提前写好
+					window.parent.show.location.href=j['menuRoute']+".html";
+					//window.parent.show.location.href="http://www.baidu.com";
+				}
+			}); 
+			
+		});
+	}
+	
+	function clickLeft(data,a,b,status) {
+		console.log("============",data)
+		if(status==0){
+			//点击收回子菜单
+			$("#li"+(a-1)+s+b).children().remove()
+		}else{
+			//点击 展开子菜单，递归调用
+			show2(data,a,b,status)
+		}
+		
+	}
+	
+});
+
+</script>
+ <style>
+ul li{
+    //float:left;
+    width: 110px;
+    margin: 0 5px;
+    background-color:#fff;
+    border:1px solid white;
+    cursor: pointer;
+    color:#000;
+}
+ul li:hover,ul li.selected{
+    background-color:#0CF;
+    color:#fff;
+    padding:10px;
+}
+</style> 
+<script>
+$(function(){
+    $("ul#navigator li").click(function(){
+        $(this).addClass("selected").siblings().removeClass("selected");
+    });
+});
+</script>
+</head>
+<body>
+	<ul id="d" style="margin-top: 20px">
+	</ul>
+	<!--   <ul id="navigator">
+    <li>首页</li>
+    <li class="selected">公司介绍</li>
+    <li>成功案例</li>
+    <li>解决方案</li>
+    <li>联系我们</li>
+  </ul> -->
+</body>
+</html>

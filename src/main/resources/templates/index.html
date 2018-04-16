@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>首页</title>
+
+<script type="text/javascript">
+
+</script>
+
+</head>
+<body>
+	<div th:text="'欢迎你'+${session.login.loginName}">这是谁</div>
+	<a th:href="@{/logout}">退出登录</a>
+</body>
+</html>

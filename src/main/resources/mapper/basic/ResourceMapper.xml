@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.melo.focus.mapper.basic.ResourceMapper" >
+  <resultMap id="BaseResultMap" type="com.melo.focus.domain.basic.Resource" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="pid" property="pid" jdbcType="VARCHAR" />
+    <result column="des" property="des" jdbcType="VARCHAR" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="TINYINT" />
+     <result column="menu_route" property="menuRoute" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from resource
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.melo.focus.domain.basic.Resource" >
+    insert into resource (id, name, type, 
+      code, pid, des, sort,path,menu_route
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{code,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, #{des,jdbcType=VARCHAR}, #{sort,jdbcType=TINYINT},
+      #{path,jdbcType=VARCHAR},#{menuRoute,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.melo.focus.domain.basic.Resource" >
+    update resource
+    set name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      code = #{code,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=VARCHAR},
+      des = #{des,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=TINYINT},
+      path = #{path,jdbcType=VARCHAR},
+      menu_route = #{menuRoute,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select id, name, type, code, pid, des, sort,path,menu_route
+    from resource
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, name, type, code, pid, des, sort,path,menu_route
+    from resource
+  </select>
+</mapper>

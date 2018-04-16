@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<!-- 新 Bootstrap 核心 CSS 文件 -->  
+ <link rel="stylesheet" href="css/bootstrap.min.css">
+  
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->  
+<!-- <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>  
+ -->  
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->  
+<!-- <script src="js/bootstrap.min.js"></script>  
+ -->
+<script type="text/javascript" src="jquery-3.0.0.min.js"></script>
+
+ <script type="text/javascript">
+$(function(){
+	
+	//获取url中的参数，网上搜的
+	function getUrlParam(name) {
+	 var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+	 var r = window.location.search.substr(1).match(reg); //匹配目标参数
+	 if (r != null) return unescape(r[2]); return null; //返回参数值
+	}
+	var id=getUrlParam('id');
+	
+	
+	var s="---"
+	$.ajax({
+		url:"/focus/resource",
+		type:"get",
+		data:{},
+		success:function(d){
+			var data = d['data'];
+			//alert(data[0].name);
+			allResource(data,0,0,0)
+		},
+		error:function(){},
+		dataType:"json"
+	});
+
+	
+	 //这个跟left页面的 把树简单拿出来不同，  a是 当前菜单在第几层，b是当前的父菜单在其层中的序号，c是父菜单的父菜单在其层的序号，c用来找父菜单的id
+	 //确定一个菜单的相对位置 需要  第几层、父菜单在其层的序号、当前菜单的序号，如果用 a+s+i做id 三层以上的菜单id会重合，比如两个二级菜单下的第一个菜单id就重合了
+	 function allResource(data,a,b,c){
+		 //alert("ok")
+		 $.each(data,function (i,j){
+			console.log(">>>>>>>>>>>",i,j);
+			//alert(j['id']);
+			//展开所有资源
+			if(a==0){
+				$("#all").append("<li style='list-style-type:none' id='li" + a + s + b + s + i + "'><input id='"+j['id']+"' name='ids' type='checkbox'/>"+j['name']+"</li>")
+			}else{
+				//alert("ok");
+				$("#li"+(a-1)+s+c+s+b).append("<li id='li" + a + s+b+s + i + "' style='margin-left:"+10*a+"px;list-style-type:none'><input id='"+j['id']+"' name='ids' type='checkbox'/>"+j['name']+"</li>")
+			}
+			allResource(j['children'],a+1,i,b); 
+		
+		});	
+		 
+		$("input[name='ids']").click(function(){
+			 //alert("ok")
+			 var checkedValue = this.checked;//alert(checkedValue);
+			 $(this).parent("li").find("input[name='ids']").attr("checked",checkedValue); 
+		 });
+	} 
+	 
+	 //查拥有的资源
+	 $.ajax({
+			url:"/focus/role/getRoleResource",
+			type:"get",
+			data:{roleId:id},
+			success:function(d){
+				var data = d['data'];
+				//alert(data)
+				select(data);
+			},
+			error:function(){},
+			dataType:"json"
+		});
+	 
+	 function select(data){
+		 $.each(data,function (i,j){
+			$("#"+j).attr("checked",true);
+		});	
+	 }
+		
+	
+	 //授权
+	$("#save").click(function(){
+		
+		var ids = "";
+		//找的选中的多选框，id
+	      $('input:checkbox[name=ids]:checked').each(function(i,j){
+	    	 // alert("ok")
+	       if(0==i){
+	        //spCodesTemp = $(this).val();
+	    	   ids = j['id'];
+	       }else{
+	        ids += (","+ j['id']);
+	       }
+	      });
+	      
+		$.ajax({
+			url:"/focus/role/authorize",
+			type:"post",
+			data:{roleIds:id,resourceIds:ids},
+			success:function(d){
+				if(d['status']==500){
+					alert(d['data']);
+				}
+				if(d['status']==200){
+					alert("授权成功");
+					window.close();
+				}
+			},
+			error:function(){},
+			dataType:"json"
+		}); 
+	}); 
+});
+</script>
+</head>
+<body>
+<div class="container-fluid" style="margin-top: 20px;margin-left:100px">
+	<div class="row-fluid">
+		<div class="span12">
+			<ul id="all">
+			
+			</ul>
+			
+		</div>
+		<button id="save" class='btn btn-success' type='button' style="margin-left:5px;">确定授权</button>
+	</div>
+</div>
+</body>
+</html>

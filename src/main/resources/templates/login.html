@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>欢迎登陆</title>
+
+<style>
+
+div{
+	height:700px;
+	width:700px;
+	//border:1px #009999 solid;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:240px;
+	font-size:18px;
+	
+}
+
+
+form{
+	margin-top:50px;
+	height:400px;
+	width:600px;
+	//border:1px #009999 solid;
+	margin-left:auto;
+	margin-right:auto;
+	
+	}
+
+span input{
+	height:30px;
+	width:260px;
+	margin-top:20px;
+	font-size:18px;
+	margin-left:30px;
+	font-size:18px;
+	BORDER-TOP-STYLE: none;
+	BORDER-RIGHT-STYLE: none; 
+	BORDER-LEFT-STYLE: none; 
+	BORDER-BOTTOM-STYLE: solid;
+	border-color:#06F;
+	border-radius:5px;
+	
+	}
+.span{
+	margin-left:50px;
+	color:#03F;
+	
+	
+	}
+	
+.span_1{
+	margin-left:105px;
+	border-radius:10px;
+	
+	}
+.span_1 input{
+	
+	border-radius:10px;
+	
+	}
+
+
+</style>
+<script type="text/javascript" src="jquery-3.0.0.min.js"></script>
+<script type="text/javascript">
+
+
+$(function(){
+	
+	
+ 	$("#but").click(function(){
+ 		var loginNames = document.getElementsByName("loginName")[0].value;
+ 		var passwords = document.getElementsByName("password")[0].value;
+		$.ajax({
+			url:"/focus/userlogin",
+			type:"post",
+			data:{loginName:loginNames,password:passwords},
+			success:function(d){
+				if(d['data']=="SUCCESS"){
+       				window.location.href='/homm.html';
+       			}else{
+       				document.getElementById("info").innerText=d['data'];
+       			}
+				
+			},
+			error:function(){},
+			dataType:"json"
+		});
+
+	}); 
+	
+});
+
+
+
+
+
+
+
+
+
+</script>
+
+</head>
+
+<body style=" background-color:#F96">
+	<div>
+    <span style="margin-left:180px; margin-top:100px; font-size:30px; color:#03F">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;欢迎登陆</span>
+    <form method="post">
+    	<span class='span'>用户名<input name='loginName' type="text"/></span><br/>
+    	<span class='span'>密&nbsp;码<input name='password' type="password"/><font id='info'></font></span><br/>
+        <span class='span_1'><input type="button" id="but"  value="登    陆"/></span>
+    </form>
+    </div>
+</body>
+</html>

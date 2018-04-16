@@ -1,0 +1,12 @@
+mybatis.mapper-locations=classpath*:mapper/**/*Mapper.xml
+
+spring.datasource.driverClassName = com.mysql.jdbc.Driver
+spring.datasource.url = jdbc:mysql://localhost:3306/focus?useUnicode=true&characterEncoding=utf-8
+spring.datasource.username = root
+spring.datasource.password = root
+
+spring.redisson.address= redis://localhost:6379
+
+spring.application.name=spring-cloud-focus
+eureka.client.serviceUrl.defaultZone=http://localhost:8000/eureka/
+

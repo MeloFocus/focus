@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="js/bootstrap.min.js"></script> 
+<link rel="stylesheet" href="css/bootstrap.min.css">  
+<script type="text/javascript" src="jquery-3.0.0.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	
+	$("#save").click(function(){
+		//alert($("#rolename").val())
+		$.ajax({
+			url:"/focus/role",
+			type:"post",
+			data:{name:$("#rolename").val(),code:$("#code").val(),sort:$("#sort").val(),type:$("#type").val(),des:$("#des").val()},
+			success:function(d){
+				//alert("ok")
+				if(d['status']==500){
+					alert(d['data']);
+				}
+				if(d['status']==200){
+					alert("新增成功");
+					window.opener.location.href = window.opener.location.href;
+					window.close();
+				}
+			},
+			error:function(){},
+			dataType:"json"
+		}); 
+	}); 
+	
+});
+</script>
+</head>
+<body>
+	<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+			<table class="table">
+				<thead>
+					<tr><td colspan="2">新增角色</td></tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							角色名称：
+						</td>
+						<td>
+							<input type="text" id="rolename"/>
+						</td>
+					</tr>
+					<tr class="success">
+						<td>
+							角色code：
+						</td>
+						<td>
+							<input type="text" id="code"/>
+						</td>
+					</tr>
+					<tr class="error">
+						<td>
+							序号：
+						</td>
+						<td>
+							<input type="text" id="sort"/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							角色类型：
+						</td>
+						<td>
+							<input type="text" id="type" /><span id="warn"></span>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							描述：
+						</td>
+						<td>
+							<input type="text" id="des" /><span id="warn"></span>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<button id="save" class="btn btn-primary btn-small" type="button" style="margin-top: 10px">提交</button>
+						</td>					
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+</body>
+</html>

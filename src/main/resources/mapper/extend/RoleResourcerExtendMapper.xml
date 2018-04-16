@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.melo.focus.mapper.extend.RoleResourceExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.melo.focus.domain.basic.RoleResourcer" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+    <result column="resource_id" property="resourceId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <delete id="deleteRoleResource" >
+    delete from role_resource_r
+    <where>
+    	<if test="roleId!=null">
+    	role_id = #{roleId,jdbcType=VARCHAR}
+    	</if>
+    	<if test="resourceId!=null">
+    	resource_id = #{resourceId,jdbcType=VARCHAR}
+    	</if>
+    </where>
+  </delete>
+ 
+ 	<insert id="batchInsert">
+ 	 insert into role_resource_r (id, role_id, resource_id
+      )
+    values 
+    	<foreach collection="list" item="item" separator=",">
+    	(
+   		 #{item.id,jdbcType=VARCHAR}, #{item.roleId,jdbcType=VARCHAR}, #{item.resourceId,jdbcType=VARCHAR}
+    	)
+    	</foreach>
+ 	</insert>
+ 	
+ 	<select id="getResourceByRole" resultType="string">
+ 		select resource_id from role_resource_r where role_id in
+ 		<foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+ 			#{roleId,jdbcType=VARCHAR}
+ 		</foreach>
+ 	</select>
+</mapper>
