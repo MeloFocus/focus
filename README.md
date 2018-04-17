@@ -1,5 +1,6 @@
 #focus
 权限管理系统，目的是学习springboot和shiro，以及后续学习springcloud
+
 一。采用框架
 前端：jquery、bootstrap
 后端：springboot、shiro、mybatis、redisson、swagger
