@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<!-- 新 Bootstrap 核心 CSS 文件 -->  
+ <link rel="stylesheet" href="css/bootstrap.min.css">
+  
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->  
+<!-- <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>  
+ -->  
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->  
+<!-- <script src="js/bootstrap.min.js"></script>  
+ -->
+<script type="text/javascript" src="jquery-3.0.0.min.js"></script>
+
+ <script type="text/javascript">
+$(function(){
+	//alert("oik")
+	 $.ajax({
+		url:"/focus/user",
+		type:"get",
+		data:{},
+		success:function(d){
+			//alert("ok")
+			if(d['status']==500){
+				alert(d['data']);
+			}
+			if(d['status']==200){
+				show(d['data']);
+			}
+		},
+		error:function(){},
+		dataType:"json"
+	});
+	
+	function show(data){
+		$.each(data,function (i,j){
+			//每个用户的按钮id必须区分开
+			$("#user").append("<li>"+j['realName']+"</li>"+"-----------------------------------------------------------"+
+					"<button id='update"+i+"' class='btn btn-warning btn-primary' type='button' style='margin-right:5px'>修改</button>"
+					+"<button id='delegate"+i+"' class='btn btn-success btn-primary' type='button' style='margin-right:5px'>委派</button>"
+					+"<button id='delete"+i+"' class='btn btn-danger btn-primary' type='button'>删除</button>");
+			
+				$("#update"+i).click(function(){
+					//alert(j['loginName']);
+					window.open ("user_update.html?loginName="+j['loginName']+"&&realName="+j['realName']+"&&password="+j['password']+"&&id="+j['id'],
+					"newwindow", "height=400px, width=400, top=200px, left=500px, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no")&nbsp;
+				});
+				
+				$("#delete"+i).click(function(){
+					disp_confirm(j['id']);
+				});
+				
+				$("#delegate"+i).click(function(){
+					window.open ("user_role.html?id="+j['id'],
+							"newwindow", "height=400px, width=400, top=200px, left=500px, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no")&nbsp;
+				});
+		});
+	} 
+	
+	$("#save").click(function(){
+		window.open ("user_save.html", "newwindow", "height=400px, width=600, top=200px, left=500px, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no")&nbsp; 
+	});
+	
+	//删除跳出 确认窗口，确定才会继续操作
+	function disp_confirm(idd)
+	  {
+	  var r=confirm("确定要删除用户吗？")
+	  if (r==true){
+		  //alert(idd);
+		  $.ajax({
+				url:"/focus/user/"+idd,
+				type:"DELETE",
+				data:{},
+				success:function(d){
+					if(d['status']==200){
+						 alert("删除成功");
+						 window.location.href = window.location.href;
+					}
+					if(d['status']==500){
+						alert(d['data']);
+					}
+				},
+				error:function(){},
+				dataType:"json"
+			});
+		
+	  }else {}
+	  }
+	
+});
+</script>
+</head>
+<body>
+
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="row-fluid">
+				<div class="span12" style="height: 50px">
+					<button  id="save" class="btn btn-primary btn-small" type="button" style="margin-top: 10px">新增用户</button>
+				</div>
+			</div>
+			<ul id="user">
+				<!-- <li>
+					新闻资讯    <button class="btn btn-mini btn-primary" type="button">按钮</button>
+				</li>
+				<li>
+					体育竞技
+				</li>
+				<li>
+					娱乐八卦
+				</li>
+				<li>
+					前沿科技
+				</li>
+				<li>
+					环球财经
+				</li>
+				<li>
+					天气预报
+				</li>
+				<li>
+					房产家居
+				</li>
+				<li>
+					网络游戏
+				</li> -->
+			</ul> 
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.melo.focus.mapper.extend.RoleExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.melo.focus.domain.basic.Role" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="TINYINT" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="des" property="des" jdbcType="VARCHAR" />
+  </resultMap>
+ 
+  <select id="isExist">
+  	select count(1) from role where code = #{code,jdbcType=VARCHAR}
+  </select>
+</mapper>

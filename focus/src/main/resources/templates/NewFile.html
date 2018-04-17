@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<script type="text/javascript" src="jquery-3.0.0.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	alert("Hello 王凤");
+});
+</script>
+
+<body>
+	<!--/*@thymesVar id="name" type="java.lang.String"*/-->
+	<p th:text="${name}" >3333</p>
+	<a th:href="@{http://www.baidu.com}">百度</a>
+	<a th:href="@{what.html}">当前项目下能直接访问的静态页面</a>
+	<a th:href="@{/}">访问后端首页</a>
+	<span th:text="how+${name}">how are you</span>
+	
+	
+
+	
+	<table>
+	    <tr>
+	      <td>NAME</td>
+	      <th>AGE</th>
+	      <th>SORT</th>
+	    </tr>
+	    <tr th:each="u: ${userlist}">
+	      <td th:text="${u.name}">Onions</td>
+	      <td th:text="${u.age}">2.41</td>
+	      <td th:text="${u.sort}">yes</td>
+	    </tr>
+  	</table>
+  	
+  	<div th:text="${date}"></div>
+  	<!-- <div th:text="${#dates.format(date, 'dd/MMM/yyyy HH:mm')}"></div> -->
+  	<div th:text="${#dates.createNow()}"></div>
+  	
+ <!--  	<div th:text="${#strings.listIsEmpty(userlist)}"></div> -->
+  	
+  	    <p th:text="#{home.welcome}">Welcome to our grocery store!</p>
+  	 <a th:href="@{/yes(add='no')}">yes</a>  <p th:text="${add}"></p> 
+</body>
+</html>

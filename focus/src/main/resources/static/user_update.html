@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="js/bootstrap.min.js"></script> 
+<link rel="stylesheet" href="css/bootstrap.min.css">  
+<script type="text/javascript" src="jquery-3.0.0.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	
+	//获取url中的参数，网上搜的
+	function getUrlParam(name) {
+	 var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+	 var r = window.location.search.substr(1).match(reg); //匹配目标参数
+	 if (r != null) return unescape(r[2]); return null; //返回参数值
+	}
+	var account=getUrlParam('loginName');
+	var realName=getUrlParam('realName');
+	var password=getUrlParam('password');
+	var idd=getUrlParam('id');
+	//alert(account)
+	
+	$("#loginName").attr("value",account);
+	$("#realName").attr("value",realName);
+	$("#password").attr("value",password);
+	$("#save").click(function(){
+		//alert(realName);
+		 $.ajax({
+			url:"/focus/user",
+			type:"PUT",
+			data:{loginName:$("#loginName").val(),realName:$("#realName").val(),password:$("#password").val(),id:idd},
+			success:function(d){
+				//alert("ok")
+				if(d['status']==500){
+					alert(d['data']);
+				}
+				if(d['status']==200){
+					alert("修改成功");
+					window.opener.location.href = window.opener.location.href;
+					window.close();
+				}
+			},
+			error:function(){},
+			dataType:"json"
+		});
+	});
+	 
+	
+});
+</script>
+</head>
+<body>
+	<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+			<table class="table">
+				<thead>
+					<tr><td colspan="2">修改用户信息</td></tr>
+				</thead>
+				<tbody>
+					<tr class="success" >
+						<td>
+						</td>
+						<td>
+							<input type="text" id="loginName" disabled="disabled"/>
+						</td>
+					</tr>
+					<tr class="success">
+						<td>
+							用户真实姓名：
+						</td>
+						<td>
+							<input type="text" id="realName"/>
+						</td>
+					</tr>
+					<tr class="error">
+						<td>
+							密码：
+						</td>
+						<td>
+							<input type="password" id="password"/>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<button id="save" class="btn btn-primary btn-small" type="button" style="margin-top: 10px">提交</button>
+						</td>					
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+</body>
+</html>

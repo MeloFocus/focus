@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+	<context id="MyBatis3Simple" targetRuntime="MyBatis3Simple"
+		defaultModelType="flat">
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+			<property name="suppressDate" value="true" />
+		</commentGenerator>
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/focus?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false"
+			userId="root" password="root" />
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<javaModelGenerator targetPackage="com.melo.focus.domain.basic"
+			targetProject="MAVEN" />
+		<sqlMapGenerator targetPackage="mapper/basic"
+			targetProject="MAVEN" />
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.melo.focus.mapper.basic"
+			targetProject="MAVEN" />
+
+		<table domainObjectName="User" tableName="user"></table>
+		<table domainObjectName="Role" tableName="role"></table>
+		<table domainObjectName="Resource" tableName="resource"></table>
+		<table domainObjectName="Authority" tableName="authority"></table>
+		<table domainObjectName="ResourceAuthority" tableName="resouce_authority"></table>
+		<table domainObjectName="RoleResourcer" tableName="role_resource_r"></table>
+		<table domainObjectName="RoleBusiness" tableName="role_business"></table>
+		<table domainObjectName="UserRoleR" tableName="user_role_r"></table>
+	</context>
+</generatorConfiguration>

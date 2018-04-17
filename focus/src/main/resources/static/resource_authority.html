@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>资源管理</title>
+
+
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+ 
+<!-- 可选的Bootstrap主题文件（一般不使用） -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"></script>
+ 
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+ 
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+<script type="text/javascript">
+$(function(){
+	function getUrlParam(name) {
+		 var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+		 var r = window.location.search.substr(1).match(reg); //匹配目标参数
+		 if (r != null) return unescape(r[2]); return null; //返回参数值
+		}
+	var id=getUrlParam('id');
+	//alert(id)
+	
+	$.ajax({
+		url:"/focus/resource/getAuthorityByResource",
+		type:"get",
+		data:{ResourceId:id},
+		success:function(d){
+			var data = d['data'];
+			//alert(data[0].name);
+			showAuthority(data);
+		},
+		error:function(){},
+		dataType:"json"
+	}); 
+	
+	function showAuthority(data){
+		$.each(data,function (i,j){
+			$("#has").append("<li style='list-style-type:none'>"+j['method']+":"+j['url']+
+					"<button id='delete"+i+"' type='button' style='margin-right:5px'>取消授权</button></li>"
+			);
+			
+			$("#delete"+i).click(function(){
+				$.ajax({
+					url:"/focus/resource/deleteResourceAuthority",
+					type:"POST",
+					data:{resourceId:id,authorityId:j['id']},
+					success:function(d){
+						if(d['status']==500){
+							alert(d['data']);
+						}
+						if(d['status']==200){
+							alert("取消成功");
+							window.location.href = window.location.href;
+							}
+					},
+					error:function(){},
+					dataType:"json"
+				}); 
+			});
+		});
+	}
+	
+	$("#get").click(function(){
+		
+		var s=$("#search").val();
+		//alert(s)
+		$.ajax({
+			url:"/focus/getLikeAuthority",
+			type:"get",
+			data:{method:"get",word:s},
+			success:function(d){
+				var data = d['data'];
+				//alert(data[0].name);
+				showAll(data);
+			},
+			error:function(){},
+			dataType:"json"
+		}); 
+	});
+	
+$("#post").click(function(){
+		
+		var s=$("#search").val();
+		//alert(s)
+		$.ajax({
+			url:"/focus/getLikeAuthority",
+			type:"get",
+			data:{method:"post",word:s},
+			success:function(d){
+				var data = d['data'];
+				//alert(data[0].name);
+				showAll(data);
+			},
+			error:function(){},
+			dataType:"json"
+		}); 
+	});
+	
+$("#put").click(function(){
+	
+	var s=$("#search").val();
+	//alert(s)
+	$.ajax({
+		url:"/focus/getLikeAuthority",
+		type:"get",
+		data:{method:"put",word:s},
+		success:function(d){
+			var data = d['data'];
+			//alert(data[0].name);
+			showAll(data);
+		},
+		error:function(){},
+		dataType:"json"
+	}); 
+});
+
+$("#delete").click(function(){
+	
+	var s=$("#search").val();
+	//alert(s)
+	$.ajax({
+		url:"/focus/getLikeAuthority",
+		type:"get",
+		data:{method:"delete",word:s},
+		success:function(d){
+			var data = d['data'];
+			//alert(data[0].name);
+			showAll(data);
+		},
+		error:function(){},
+		dataType:"json"
+	}); 
+});
+	
+	function showAll(data){
+		 $.each(data,function (i,j){
+			$("#all").append("<li style='list-style-type:none'>"+j['method']+":"+j['url']+
+					"<button id='update"+i+"' type='button' style='margin-right:5px'>授权</button></li>");
+			
+			$("#update"+i).click(function(){
+				$.ajax({
+					url:"/focus/resource/authorize",
+					type:"POST",
+					data:{resourceId:id,authorityId:j['id']},
+					success:function(d){
+						if(d['status']==500){
+							alert(d['data']);
+						}
+						if(d['status']==200){
+							alert("授权成功");
+							window.location.href = window.location.href;
+							}
+					},
+					error:function(){},
+					dataType:"json"
+					}); 
+			});
+		});
+	} 
+	
+});
+
+</script>
+</head>
+<body>
+	
+	<div style="position:fixed; width:300px;margin-top:40px;border:solid;border-radius:10px;height: 300px;margin-left: 20px;display: inline-block;">
+		<ul id="has"></ul>
+	</div>
+	<div style="position:fixed;width:500px;margin-top:40px;border:solid;border-radius:10px;margin-left:400px;display: inline-block;">
+		<input style="float: left;margin-right: 5px" id="search" type="text" value="请输入url模糊搜索"/>
+		<input id="get"  style="float: left;margin-right: 5px" class='btn btn-primary btn-primary' type="button" value="GET搜索"/>
+		<input id="post" style="float: left;margin-right: 5px" class='btn btn-warning btn-primary' type="button" value="POST"/>
+		<input id="put" style="float: left;margin-right: 5px" class='btn btn-success btn-primary' type="button" value="PUT"/>
+		<input id="delete" style="float: left;margin-right: 5px" class='btn btn-danger btn-primary' type="button" value="DELETE"/>
+		<ul id="all"></ul>
+	</div>
+</body>
+</html>

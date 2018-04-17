@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<!-- 新 Bootstrap 核心 CSS 文件 -->  
+ <link rel="stylesheet" href="css/bootstrap.min.css">
+  
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->  
+<!-- <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>  
+ -->  
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->  
+<!-- <script src="js/bootstrap.min.js"></script>  
+ -->
+<script type="text/javascript" src="jquery-3.0.0.min.js"></script>
+
+ <script type="text/javascript">
+$(function(){
+	
+	//获取url中的参数，网上搜的
+	function getUrlParam(name) {
+	 var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+	 var r = window.location.search.substr(1).match(reg); //匹配目标参数
+	 if (r != null) return unescape(r[2]); return null; //返回参数值
+	}
+	var id=getUrlParam('id');
+	//alert(id)
+	
+	var s="---"
+	 $.ajax({
+			url:"/focus/role",
+			type:"get",
+			data:{},
+			success:function(d){
+				//alert("ok")
+				if(d['status']==500){
+					alert(d['data']);
+				}
+				if(d['status']==200){
+					show(d['data']);
+				}
+			},
+			error:function(){},
+			dataType:"json"
+		});
+	 
+	 function show(data){
+		 $.each(data,function (i,j){
+				//每个用户的按钮id必须区分开
+				$("#all").append("<li style='list-style-type:none'><input name='ids' id="+j['id']+" type='checkbox'/>"+j['name']+"</li>");
+			});
+	 }
+
+	 
+	 //查拥有的角色
+	 $.ajax({
+			url:"/focus/user/getRoleByUser",
+			type:"get",
+			data:{userId:id},
+			success:function(d){
+				var data = d['data'];
+				//alert(data)
+				select(data);
+			},
+			error:function(){},
+			dataType:"json"
+		});
+	 
+	 function select(data){
+		 $.each(data,function (i,j){
+			$("#"+j).attr("checked",true);
+		});	
+	 }
+	 
+	 //授权
+	$("#save").click(function(){
+		
+		var ids = "";
+		//找的选中的多选框，id
+	      $('input:checkbox[name=ids]:checked').each(function(i,j){
+	    	 // alert("ok")
+	       if(0==i){
+	        //spCodesTemp = $(this).val();
+	    	   ids = j['id'];
+	       }else{
+	        ids += (","+ j['id']);
+	       }
+	      });
+	      
+		$.ajax({
+			url:"/focus/user/delegate",
+			type:"post",
+			data:{userId:id,roleIds:ids},
+			success:function(d){
+				if(d['status']==500){
+					alert(d['data']);
+				}
+				if(d['status']==200){
+					alert("授权成功");
+					window.close();
+				}
+			},
+			error:function(){},
+			dataType:"json"
+		}); 
+	}); 
+});
+</script>
+</head>
+<body>
+<button id="save" class='btn btn-success' type='button' style="margin-left:20px;margin-top: 20px">确定授权</button>
+<div class="container-fluid" style="margin-top: 20px;margin-left:100px">
+	<div class="row-fluid">
+		<div class="span12">
+			<ul id="all">
+			
+			</ul>
+			
+		</div>
+		
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="jquery-3.0.0.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	//alert("ok");
+	//获取url中的参数，网上搜的
+	function getUrlParam(name) {
+	 var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+	 var r = window.location.search.substr(1).match(reg); //匹配目标参数
+	 if (r != null) return unescape(r[2]); return null; //返回参数值
+	}
+	var name=getUrlParam('name');
+	var type=getUrlParam('type');
+	var code=getUrlParam('code');
+	var des=getUrlParam('des');
+	var menuRoute=getUrlParam('menuRoute');
+	var sort=getUrlParam('sort');
+	var parentCode=getUrlParam('parentCode');
+	var idd=getUrlParam('id');
+	
+	//替换元素的内容
+	//alert(parent_code)
+	$("#name").val(name);
+	$("#type").val(type);
+	$("#code").val(code);
+	$("#menuRoute").val(menuRoute);
+	$("#des").val(des);
+	$("#sort").val(sort);
+	$("#pcode").val(parentCode);
+	
+	$("#save").click(function(){
+		//alert($("#pcode").val());
+		$.ajax({
+			url:"/focus/resouce",
+			type: 'PUT',
+			data:{
+				//_method : "put",
+				name:$("#name").val(),type:$("#type").val(),code:$("#code").val(),parentCode:$("#pcode").val(),
+				des:$("#des").val(),sort:$("#sort").val(),id:idd,menuRoute:$("#menuRoute").val()
+				},
+			success:function(d){
+				//alert("?")
+				isSave(d);
+			},
+			error:function(){},
+			dataType:"json"
+		});
+	});
+	
+	function isSave(d){
+		if(d['status']==500){
+			alert(d['data']);
+		}
+		if(d['status']==200){
+			alert("保存成功");
+			window.opener.location.href = window.opener.location.href;
+			window.close();
+		}
+	}
+});
+</script>
+</head>
+<body>
+	<form >
+		<table>
+			<tr>
+				<td>名称：</td>
+				<td><input id="name" type="text" ></<input></td>
+			</tr>
+			<tr>
+				<td>资源类型：</td>
+				<td><input id="type" type="text" name="type"></<input></td>
+			</tr>
+			<tr>
+				<td>资源code码：</td>
+				<td><input id="code" type="text" name="code"></<input>
+				按钮以btn_开头,菜单以category_开头</td>
+			</tr>
+			<tr>
+				<td>父资源code：</td>
+				<td><input id="pcode" type="text"  ></<input></td>
+			</tr>
+			<tr>
+				<td>描述：</td>
+				<td><input id="des" type="text" name="des"></<input></td>
+			</tr>
+			<tr>
+				<td>前端路由：</td>
+				<td><input id="menuRoute" type="text" name="menuRoute"></<input></td>
+			</tr>
+			<tr>
+				<td>序号：</td>
+				<td><input id="sort" type="text" name="sort"></<input></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<button id="save">修改</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

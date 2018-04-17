@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.melo.focus.mapper.extend.UserRoleRExtendMapper" >
+ 
+  <resultMap id="BaseResultMap" type="com.melo.focus.domain.basic.UserRoleR" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+     <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+    <result column="yw_id" property="yw_id" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <insert id="batchInsert">
+  	INSERT INTO user_role_r (id, user_id, role_id, yw_id)
+		VALUES
+		<foreach collection="userRoleList" item="userRole" separator=",">
+			(#{userRole.id,jdbcType=VARCHAR},
+			#{userRole.userId,jdbcType=VARCHAR},
+			#{userRole.roleId,jdbcType=VARCHAR},
+			#{userRole.ywId,jdbcType=VARCHAR})			
+		</foreach>
+  </insert>
+  
+  <delete id="deleteByUserId">
+	DELETE
+	FROM
+		user_role_r
+	WHERE
+		user_id in 
+		<foreach collection="userIdList" item="userId" open="(" close=")" separator=",">
+			#{userId,jdbcType=VARCHAR}
+		</foreach>
+  </delete>
+  
+  <delete id="deleteByRoleId">
+  		DELETE
+	FROM
+		user_role_r
+	WHERE
+		role_id = #{roleId,jdbcType=VARCHAR} 
+  </delete>
+  
+  <select id="getRoleByUser" resultType="string">
+  	select role_id from user_role_r where user_id=#{userId,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.melo.focus.mapper.basic.ResourceAuthorityMapper" >
+  <resultMap id="BaseResultMap" type="com.melo.focus.domain.basic.ResourceAuthority" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="resource_id" property="resourceId" jdbcType="VARCHAR" />
+    <result column="authority_id" property="authorityId" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from resouce_authority
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.melo.focus.domain.basic.ResourceAuthority" >
+    insert into resouce_authority (id, resource_id, authority_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{resourceId,jdbcType=VARCHAR}, #{authorityId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.melo.focus.domain.basic.ResourceAuthority" >
+    update resouce_authority
+    set resource_id = #{resourceId,jdbcType=VARCHAR},
+      authority_id = #{authorityId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select id, resource_id, authority_id
+    from resouce_authority
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, resource_id, authority_id
+    from resouce_authority
+  </select>
+</mapper>
