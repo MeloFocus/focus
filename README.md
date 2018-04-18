@@ -1,6 +1,6 @@
 #focus
-权限管理系统，目的是学习springboot和shiro，以及后续学习springcloud
-`访问地址  http://47.98.153.30:8080/`  账号：melo 密码：12345678
+权限管理系统，目的是学习springboot和shiro，以及后续学习springcloud</br>
+[访问地址]  http://47.98.153.30:8080/  账号：melo 密码：12345678
 
 一。采用框架
 ===========
@@ -11,7 +11,7 @@ jdk：1.8
 
 二。编程记录
 ==========
-【我的博客】记录了 后端基本搭建过程  (https://blog.csdn.net/u014203449/article/details/79330811)</br>
+[我的博客记录了 后端基本搭建过程](https://blog.csdn.net/u014203449/article/details/79330811)</br>
 
 三。部署过程
 ==========
