@@ -19,3 +19,5 @@ jdk：1.8
 2.更改application 中数据库和redis 的用户名密码</br>
 3.如果不用redis的朋友，可以将配置文件、config类、安全管理器、和resouceservice中redis业务注释掉即可</br>
 4.访问 localhost:8080  账号：melo 密码：12345678</br>
+
+ https://github.com/MeloFocus/focus/raw/master/img/user.png
