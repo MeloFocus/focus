@@ -22,6 +22,6 @@ jdk：1.8
 
 ![](https://github.com/MeloFocus/focus/raw/master/img/user.png)</br>
 ![](https://github.com/MeloFocus/focus/raw/master/img/role.png)</br>
-![](https://github.com/MeloFocus/focus/raw/master/img/resouce.png)</br>
+![](https://github.com/MeloFocus/focus/raw/master/img/resource.png)</br>
 ![](https://github.com/MeloFocus/focus/raw/master/img/auth.png)</br>
 ![](https://github.com/MeloFocus/focus/raw/master/img/authority.png)</br>
