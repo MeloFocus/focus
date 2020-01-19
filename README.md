@@ -1,5 +1,5 @@
 #focus
-权限管理系统，目的是学习springboot和shiro，以及后续学习springcloud</br>
+权限管理系统，学习springboot和shiro</br>
 [访问地址]  http://47.98.153.30:8080/  账号：melo 密码：12345678
 
 一。采用框架
