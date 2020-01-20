@@ -209,7 +209,7 @@ CREATE TABLE `user` (
   `id` varchar(50) NOT NULL,
   `login_name` varchar(20) DEFAULT NULL,
   `real_name` varchar(20) DEFAULT NULL,
-  `password` varchar(20) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
   `superman` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -218,7 +218,6 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('05068cb0-131b-11e8-8806-3ef40d61c1a6', 'melo', 'melo', '1b1c2cf4a9293a77a253479100f4e301', 1);
-
 INSERT INTO `user` VALUES ('76fbd9f0-cc74-4314-b007-e66bed436b33', 'james', '勒布朗', '12345678', '\0');
 INSERT INTO `user` VALUES ('8127a2e6-69d9-4622-98c2-b81d1942080c', 'curry', '库里', '12345678', '\0');
 INSERT INTO `user` VALUES ('cd3d796e-1ddc-473f-9004-76bc65e19fd3', 'kobe', 'Bryenttttttt', '12345678', '\0');
